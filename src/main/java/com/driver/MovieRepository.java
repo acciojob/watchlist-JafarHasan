@@ -19,28 +19,44 @@ public class MovieRepository {
 
     public void saveMovie(Movie movie){
         // your code here
+        String name=movie.getName();
+        movieMap.put(name,movie);
     }
 
     public void saveDirector(Director director){
         // your code here
+        String name=director.getName();
+        directorMap.put(name,director);
     }
 
     public void saveMovieDirectorPair(String movie, String director){
         if(movieMap.containsKey(movie) && directorMap.containsKey(director)){
             // your code here
+            List<String> movies = directorMovieMapping.getOrDefault(director, new ArrayList<>());
+            movies.add(movie);
+
+            directorMovieMapping.put(director,movies);
         }
     }
 
     public Movie findMovie(String movie){
-        // your code here
+
+//        for(Movie movieObj:movieMap.values()){
+//            if(movieObj.getName().equals(movie)){
+//                return movieObj;
+//            }
+//        }
+//        return null;
+        return movieMap.get(movie);
     }
 
     public Director findDirector(String director){
-        // your code here
+        return directorMap.get(director);
     }
 
     public List<String> findMoviesFromDirector(String director){
-        // your code here
+        return directorMovieMapping.getOrDefault(director, new ArrayList<>());
+
     }
 
     public List<String> findAllMovies(){
@@ -48,10 +64,19 @@ public class MovieRepository {
     }
 
     public void deleteDirector(String director){
-        // your code here
+//        // your code here
+//        for(Director dir:directorMap.keys()){
+//            if(dir.getName().equals(director)){
+//                map.remove(dir);
+//            }
+//        }
+         directorMap.remove(director);
+         directorMovieMapping.remove(director);
     }
 
     public void deleteAllDirector(){
         // your code here
+        directorMap.clear();
+        directorMovieMapping.clear();
     }
 }
